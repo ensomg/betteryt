@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>BetterYT Settings</title>
+    <link rel="icon" href="../icons/32.png" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to settings</a>
+    <header class="topbar">
+      <div class="brand">
+        <img src="../icons/48.png" alt="" width="28" height="28" />
+        <span class="brand__name">BetterYT</span>
+      </div>
+      <div class="search" role="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5Zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Z"
+          />
+        </svg>
+        <input id="search" type="search" autocomplete="off" spellcheck="false" />
+        <kbd class="search__hint" aria-hidden="true">/</kbd>
+      </div>
+      <div class="topbar__actions">
+        <span id="status" class="status" role="status" aria-live="polite"></span>
+        <button id="open-youtube" class="btn btn--primary" type="button"></button>
+      </div>
+    </header>
+    <div class="layout">
+      <nav class="sidebar" aria-label="Settings sections">
+        <ul id="nav" class="nav"></ul>
+      </nav>
+      <main id="content" class="content" tabindex="-1"></main>
+    </div>
+    <script src="options.js"></script>
+  </body>
+</html>

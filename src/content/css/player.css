@@ -1,0 +1,164 @@
+/* Player UI drawn by the MAIN-world features (HUD, control-bar buttons, A–B markers, stats). */
+
+/* Text buttons (speed, boost) sit in YouTube's right controls next to its icon buttons. */
+.betteryt-ctrl.ytp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: top;
+  opacity: 0.9;
+}
+
+.betteryt-ctrl.ytp-button:hover {
+  opacity: 1;
+}
+
+.betteryt-ctrl svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+
+.betteryt-ctrl--text.ytp-button {
+  width: auto;
+  min-width: 40px;
+  padding: 0 6px;
+  color: #fff;
+  font:
+    600 13px/1 Roboto,
+    Arial,
+    sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.betteryt-ctrl[aria-pressed='true'] svg,
+.betteryt-ctrl--text[aria-pressed='true'] {
+  color: var(--by-accent, #3ea6ff);
+  fill: var(--by-accent, #3ea6ff);
+}
+
+.betteryt-ctrl[data-state='a'] svg,
+.betteryt-ctrl[data-state='ab'] svg {
+  fill: var(--by-accent, #3ea6ff);
+}
+
+.betteryt-ctrl[data-state='a'] {
+  animation: by-ab-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes by-ab-blink {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Transient HUD */
+.betteryt-hud {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  z-index: 60;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.66);
+  color: #fff;
+  font:
+    600 18px/1.2 Roboto,
+    Arial,
+    sans-serif;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -4px);
+}
+
+.betteryt-hud--in {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition:
+    opacity var(--by-dur-fast, 160ms) var(--by-ease-standard, ease),
+    transform var(--by-dur-fast, 160ms) var(--by-ease-standard, ease);
+}
+
+.betteryt-hud--out {
+  opacity: 0;
+  transition: opacity var(--by-dur-base, 240ms) linear;
+}
+
+/* A–B markers on the progress bar */
+.betteryt-ab-range {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 33;
+  background: color-mix(in srgb, var(--by-accent, #3ea6ff) 45%, transparent);
+  pointer-events: none;
+}
+
+.betteryt-ab-marker {
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  z-index: 34;
+  width: 4px;
+  margin-left: -2px;
+  border-radius: 2px;
+  background: var(--by-accent, #3ea6ff);
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.betteryt-ab-marker::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--by-accent, #3ea6ff);
+  color: #000;
+  font:
+    700 10px/1.4 Roboto,
+    Arial,
+    sans-serif;
+}
+
+/* Stats overlay */
+.betteryt-stats {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 61;
+  display: grid;
+  gap: 2px;
+  min-width: 220px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #eee;
+  font:
+    12px/1.5 ui-monospace,
+    'Cascadia Code',
+    Consolas,
+    monospace;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+
+.betteryt-stats__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.betteryt-stats__row b {
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .betteryt-ctrl[data-state='a'] {
+    animation: none;
+  }
+}

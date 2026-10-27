@@ -1,0 +1,291 @@
+/*
+ * Layout cleanup. One block per option in src/shared/layout-options.ts, keyed on the attribute
+ * layoutAttr(key) (e.g. homeHideChips -> html[by-home-hide-chips]). Rules only hide (never
+ * remove) nodes, so YouTube's virtualized lists keep working.
+ */
+
+/* ---------- Home ---------- */
+
+html[by-home-hide-feed]
+  ytd-browse[page-subtype='home']
+  ytd-two-column-browse-results-renderer
+  > #primary
+  > ytd-rich-grid-renderer {
+  display: none !important;
+}
+
+html:not([by-home-hide-feed]) .betteryt-focus,
+ytd-browse:not([page-subtype='home']) .betteryt-focus {
+  display: none !important;
+}
+
+html[by-home-hide-chips]
+  ytd-browse[page-subtype='home']
+  :is(ytd-feed-filter-chip-bar-renderer, #chips-wrapper, #header.ytd-rich-grid-renderer) {
+  display: none !important;
+}
+
+html[by-home-hide-shorts]
+  ytd-browse[page-subtype='home']
+  :is(
+    ytd-rich-section-renderer:has(
+      ytd-rich-shelf-renderer[is-shorts],
+      ytm-shorts-lockup-view-model,
+      ytd-reel-shelf-renderer
+    ),
+    ytd-rich-shelf-renderer[is-shorts],
+    ytd-reel-shelf-renderer
+  ) {
+  display: none !important;
+}
+
+html[by-home-columns] ytd-browse[page-subtype='home'] ytd-rich-grid-renderer {
+  --ytd-rich-grid-items-per-row: var(--by-home-columns) !important;
+  --ytd-rich-grid-posts-per-row: var(--by-home-columns) !important;
+}
+
+/* ---------- Watch ---------- */
+
+html[by-watch-hide-related] ytd-watch-flexy :is(#related, ytd-watch-next-secondary-results-renderer) {
+  display: none !important;
+}
+
+html[by-watch-hide-comments]:not([by-comments-revealed]) ytd-watch-flexy ytd-comments#comments {
+  display: none !important;
+}
+
+html:not([by-watch-hide-comments]) .betteryt-load-comments,
+html[by-comments-revealed] .betteryt-load-comments {
+  display: none !important;
+}
+
+html[by-watch-hide-endscreen]
+  :is(.ytp-ce-element, .ytp-endscreen-content, .html5-endscreen, .ytp-fullscreen-grid) {
+  display: none !important;
+}
+
+html[by-watch-hide-info-cards]
+  :is(.ytp-cards-button, .ytp-cards-teaser, .ytp-paid-content-overlay, .iv-branding, .annotation) {
+  display: none !important;
+}
+
+html[by-watch-hide-join] ytd-watch-flexy :is(#sponsor-button, ytd-watch-metadata #sponsor-button) {
+  display: none !important;
+}
+
+html[by-watch-hide-thanks]
+  ytd-watch-flexy
+  #flexible-item-buttons
+  > :is(yt-button-view-model, ytd-button-renderer)[by-action='thanks'] {
+  display: none !important;
+}
+
+html[by-watch-hide-clip]
+  ytd-watch-flexy
+  #flexible-item-buttons
+  > :is(yt-button-view-model, ytd-button-renderer)[by-action='clip'] {
+  display: none !important;
+}
+
+html[by-watch-hide-download]
+  ytd-watch-flexy
+  :is(ytd-download-button-renderer, #flexible-item-buttons > [by-action='download']) {
+  display: none !important;
+}
+
+html[by-watch-hide-live-chat] ytd-watch-flexy :is(#chat-container, #chat, ytd-live-chat-frame) {
+  display: none !important;
+}
+
+html[by-watch-hide-merch]
+  ytd-watch-flexy
+  :is(
+    ytd-merch-shelf-renderer,
+    ytd-ticket-shelf-renderer,
+    #ticket-shelf,
+    #offer-module,
+    ytd-product-list-renderer,
+    yt-video-attributes-section-view-model
+  ) {
+  display: none !important;
+}
+
+html[by-watch-hide-autoplay-toggle] .ytp-autonav-toggle-button-container,
+html[by-watch-hide-autoplay-toggle] .ytp-button[data-tooltip-target-id='ytp-autonav-toggle-button'] {
+  display: none !important;
+}
+
+/* ---------- Search ---------- */
+
+html[by-search-hide-shorts]
+  ytd-search
+  :is(
+    grid-shelf-view-model:has(ytm-shorts-lockup-view-model),
+    ytd-reel-shelf-renderer,
+    ytd-video-renderer:has(a[href^='/shorts/'])
+  ) {
+  display: none !important;
+}
+
+html[by-search-hide-mixes]
+  ytd-search
+  :is(
+    ytd-radio-renderer,
+    ytd-playlist-renderer,
+    yt-lockup-view-model:has(a[href*='start_radio=1'], a[href*='list='])
+  ) {
+  display: none !important;
+}
+
+html[by-search-hide-shelves] ytd-search ytd-item-section-renderer ytd-shelf-renderer {
+  display: none !important;
+}
+
+html[by-search-hide-people-search]
+  ytd-search
+  :is(ytd-horizontal-card-list-renderer, ytd-search-refinement-card-renderer) {
+  display: none !important;
+}
+
+/* ---------- Global ---------- */
+
+html[by-hide-notification-badge]
+  ytd-notification-topbar-button-renderer
+  :is(
+    .yt-spec-icon-badge-shape__badge,
+    #notification-count,
+    .yt-spec-icon-badge-shape--type-notification .yt-spec-icon-badge-shape__badge
+  ) {
+  display: none !important;
+}
+
+html[by-hide-voice-search] ytd-masthead #voice-search-button {
+  display: none !important;
+}
+
+/* The Create button is the one directly before the notification bell (signed-in only). */
+html[by-hide-create]
+  ytd-masthead
+  #buttons
+  > :is(ytd-button-renderer, yt-button-view-model):has(+ ytd-notification-topbar-button-renderer) {
+  display: none !important;
+}
+
+html[by-hide-premium]
+  :is(ytd-guide-entry-renderer, ytd-mini-guide-entry-renderer):has(a[href='/premium'], a[href^='/premium?']) {
+  display: none !important;
+}
+
+html[by-hide-explore]
+  ytd-guide-section-renderer:has(
+    a[href='/gaming'],
+    a[href^='/feed/trending'],
+    a[href^='/feed/explore'],
+    a[href^='/channel/UC4R8DWoMoI7CAwX8_LjQHig']
+  ) {
+  display: none !important;
+}
+
+html[by-hide-more-from-you-tube]
+  ytd-guide-section-renderer:has(
+    a[href^='https://music.youtube.com'],
+    a[href^='https://www.youtubekids.com'],
+    a[href^='https://studio.youtube.com']
+  ) {
+  display: none !important;
+}
+
+html[by-hide-trending]
+  :is(ytd-guide-entry-renderer, ytd-mini-guide-entry-renderer):has(
+    a[href^='/feed/trending'],
+    a[href^='/feed/explore']
+  ) {
+  display: none !important;
+}
+
+/* ---------- BetterYT UI added by layout options ---------- */
+
+.betteryt-focus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: calc(100vh - 220px);
+  padding: 48px 16px;
+  color: var(--by-native-text);
+  font-family: Roboto, Arial, sans-serif;
+  text-align: center;
+  animation: by-fade-in var(--by-dur-slow) var(--by-ease-standard);
+}
+
+.betteryt-focus__clock {
+  font-size: 7.2rem;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.betteryt-focus__date {
+  font-size: 1.6rem;
+  opacity: 0.7;
+}
+
+.betteryt-focus__form {
+  display: flex;
+  width: min(560px, 100%);
+  margin-top: 8px;
+}
+
+.betteryt-focus__input {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  padding: 0 20px;
+  border: 1px solid var(--by-divider, rgba(128, 128, 128, 0.4));
+  border-radius: 24px;
+  background: var(--by-surface, transparent);
+  color: inherit;
+  font: inherit;
+  font-size: 1.6rem;
+  outline: none;
+  transition: border-color var(--by-dur-fast) var(--by-ease-standard);
+}
+
+.betteryt-focus__input:focus {
+  border-color: var(--by-accent, #3ea6ff);
+}
+
+.betteryt-focus__quote {
+  max-width: 560px;
+  margin: 12px 0 0;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  opacity: 0.65;
+}
+
+.betteryt-load-comments {
+  display: block;
+  margin: 24px 0;
+  padding: 0 16px;
+  height: 36px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--by-native-hover);
+  color: var(--by-native-text);
+  font:
+    500 1.4rem/36px Roboto,
+    Arial,
+    sans-serif;
+  cursor: pointer;
+}
+
+.betteryt-load-comments:hover {
+  background: var(--by-native-active);
+}
+
+.betteryt-load-comments:focus-visible {
+  outline: 2px solid var(--by-native-focus);
+  outline-offset: 2px;
+}

@@ -1,0 +1,162 @@
+/*
+ * Theme backstops and global polish. The bulk of theming happens by remapping YouTube's own color
+ * variables (generated at runtime by features/theme.ts); these rules cover surfaces that use
+ * hard-coded colors and the polish toggles. --by-* tokens are defined by the theme style element.
+ */
+
+/* ---------- Surfaces (only when a BetterYT theme is active) ---------- */
+
+html[betteryt-theme] {
+  color-scheme: var(--by-scheme);
+  background-color: var(--by-bg) !important;
+  scrollbar-color: var(--by-scrollbar) transparent;
+}
+
+html[betteryt-theme] body,
+html[betteryt-theme] ytd-app,
+html[betteryt-theme] ytd-browse,
+html[betteryt-theme] ytd-search,
+html[betteryt-theme] ytd-watch-flexy,
+html[betteryt-theme] #frosted-glass,
+html[betteryt-theme] ytd-mini-guide-renderer,
+html[betteryt-theme] #guide-content.ytd-app,
+html[betteryt-theme] tp-yt-app-drawer #contentContainer {
+  background-color: var(--by-bg) !important;
+}
+
+html[betteryt-theme] #background.ytd-masthead {
+  background: var(--by-bg) !important;
+}
+
+html[betteryt-theme]
+  :is(ytd-menu-popup-renderer, ytd-multi-page-menu-renderer, tp-yt-paper-dialog, yt-sheet-view-model) {
+  background-color: var(--by-elevated) !important;
+}
+
+html[betteryt-theme] ::selection {
+  background: var(--by-selection);
+}
+
+/* Our own guide entries follow the theme too. */
+html[betteryt-theme] {
+  --by-native-text: var(--by-text);
+  --by-native-hover: var(--by-hover);
+  --by-native-active: var(--by-pressed);
+  --by-native-focus: var(--by-accent);
+}
+
+/* ---------- Accent progress bars & scrollbars ---------- */
+
+html[betteryt-theme][by-accent-progress]
+  :is(
+    .ytp-play-progress,
+    .ytp-swatch-background-color,
+    .ytp-scrubber-button,
+    .ytProgressBarLineProgressBarPlayed,
+    .ytThumbnailOverlayProgressBarHostWatchedProgressBarSegment,
+    ytd-thumbnail-overlay-resume-playback-renderer #progress,
+    yt-page-navigation-progress #progress
+  ) {
+  background: var(--by-accent) !important;
+}
+
+html[by-thin-scrollbars],
+html[by-thin-scrollbars] * {
+  scrollbar-width: thin;
+}
+
+html[by-thin-scrollbars]:not([betteryt-theme]) {
+  scrollbar-color: rgba(128, 128, 128, 0.5) transparent;
+}
+
+html[betteryt-theme][by-accent-scrollbar],
+html[betteryt-theme][by-accent-scrollbar] * {
+  scrollbar-color: var(--by-accent) transparent;
+}
+
+/* ---------- Radius ---------- */
+
+html[by-radius]
+  :is(
+    ytd-thumbnail,
+    yt-thumbnail-view-model,
+    .yt-thumbnail-view-model,
+    ytd-playlist-thumbnail,
+    #thumbnail.ytd-thumbnail,
+    .ytThumbnailViewModelImage,
+    ytd-thumbnail img,
+    yt-thumbnail-view-model img
+  ) {
+  border-radius: var(--by-radius) !important;
+}
+
+html[by-radius]
+  :is(
+    ytd-menu-popup-renderer,
+    ytd-multi-page-menu-renderer,
+    tp-yt-paper-dialog,
+    ytd-guide-entry-renderer,
+    tp-yt-paper-item.ytd-guide-entry-renderer,
+    ytd-mini-guide-entry-renderer
+  ) {
+  border-radius: min(var(--by-radius), 16px) !important;
+}
+
+html[by-radius] :is(.betteryt-guide-entry__button, .betteryt-mini-entry__button) {
+  border-radius: min(var(--by-radius), 16px);
+}
+
+/* ---------- Glass header & guide ---------- */
+
+html[by-glass] #background.ytd-masthead,
+html[by-glass] tp-yt-app-drawer #contentContainer,
+html[by-glass] #guide-content.ytd-app {
+  background: color-mix(in srgb, var(--by-bg, #0f0f0f) 72%, transparent) !important;
+  backdrop-filter: blur(20px) saturate(1.4);
+}
+
+html[by-glass]:not([dark]):not([betteryt-theme]) #background.ytd-masthead,
+html[by-glass]:not([dark]):not([betteryt-theme]) tp-yt-app-drawer #contentContainer {
+  background: rgba(255, 255, 255, 0.72) !important;
+}
+
+html[by-glass][by-perf]
+  :is(#background.ytd-masthead, tp-yt-app-drawer #contentContainer, #guide-content.ytd-app) {
+  backdrop-filter: none;
+}
+
+/* ---------- Header ---------- */
+
+html[by-hide-country-code] #country-code {
+  display: none !important;
+}
+
+html[by-compact-header] {
+  --ytd-masthead-height: 48px;
+}
+
+html[by-compact-header] :is(#container.ytd-masthead, ytd-masthead) {
+  height: 48px !important;
+}
+
+html[by-compact-header] ytd-app {
+  --ytd-toolbar-height: 48px;
+}
+
+html[by-header-scroll] #masthead-container.ytd-app {
+  position: absolute !important;
+}
+
+/* ---------- Fonts ---------- */
+
+html[by-font='system'] {
+  --by-font: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+html[by-font='inter'] {
+  --by-font: 'BetterYT Inter', system-ui, sans-serif;
+}
+
+html[by-font] :is(body, body *):not(svg, svg *, yt-icon, .material-icons, .ytp-caption-segment) {
+  font-family: var(--by-font) !important;
+}

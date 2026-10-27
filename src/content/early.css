@@ -1,0 +1,25 @@
+/*
+ * Injected synchronously by the manifest at document_start, before YouTube paints.
+ * Every rule must be keyed on an html attribute set by isolated.ts (html[betteryt], html[by-*])
+ * or on BetterYT's own elements, so nothing changes until the user's settings say so.
+ */
+
+@import './css/motion.css';
+@import './ui/guide-entry.css';
+@import './css/theme.css';
+@import './css/layout.css';
+@import './css/playables.css';
+@import './css/feed.css';
+@import './css/player.css';
+@import './css/sponsorblock.css';
+@import './css/shorts.css';
+@import './css/ambient.css';
+@import './css/ads.css';
+@import './css/animations.css';
+
+/* Global motion kill switch: "Animation level: Off" (or reduced motion) disables BetterYT's own motion. */
+html[by-anim='off'] [class^='betteryt-'],
+html[by-anim='off'] [class*=' betteryt-'] {
+  transition: none !important;
+  animation: none !important;
+}

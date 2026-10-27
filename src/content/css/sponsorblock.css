@@ -1,0 +1,173 @@
+/* SponsorBlock segments, skip button, full-video label; Return YouTube Dislike count and bar. */
+
+.betteryt-sb-bars {
+  position: absolute;
+  inset: 0;
+  z-index: 32;
+  pointer-events: none;
+}
+
+.betteryt-sb-seg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  min-width: 2px;
+  opacity: 0.85;
+  pointer-events: auto;
+}
+
+.betteryt-sb-point {
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Manual skip button, bottom-right above the controls (like YouTube's own "Skip ad"). */
+.betteryt-sb-skip {
+  position: absolute;
+  right: 12px;
+  bottom: 72px;
+  z-index: 62;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  animation: by-sb-in var(--by-dur-base, 240ms) var(--by-ease-emphasized, ease-out);
+}
+
+@keyframes by-sb-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+
+.betteryt-sb-skip__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font:
+    600 14px/1 Roboto,
+    Arial,
+    sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition:
+    background-color var(--by-dur-fast, 160ms) var(--by-ease-standard, ease),
+    transform var(--by-dur-instant, 90ms) var(--by-ease-standard, ease);
+}
+
+.betteryt-sb-skip__btn:hover {
+  background: rgba(0, 0, 0, 0.88);
+}
+
+.betteryt-sb-skip__btn:active {
+  transform: scale(0.97);
+}
+
+.betteryt-sb-skip__btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Countdown ring: conic fill shrinks as the segment plays out. */
+.betteryt-sb-skip__ring {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--sb-color, #00d400) calc(var(--sb-left, 1) * 360deg),
+    rgba(255, 255, 255, 0.2) 0
+  );
+  -webkit-mask: radial-gradient(circle, transparent 4px, #000 4.5px);
+  mask: radial-gradient(circle, transparent 4px, #000 4.5px);
+}
+
+.betteryt-sb-skip__never {
+  padding: 2px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.8);
+  font:
+    12px Roboto,
+    Arial,
+    sans-serif;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--by-dur-fast, 160ms) linear;
+}
+
+.betteryt-sb-skip:hover .betteryt-sb-skip__never,
+.betteryt-sb-skip__never:focus-visible {
+  opacity: 1;
+}
+
+.betteryt-sb-full {
+  display: inline-block;
+  margin-inline-end: 8px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  color: #000;
+  font:
+    600 1.2rem/1.6rem Roboto,
+    Arial,
+    sans-serif;
+  vertical-align: middle;
+}
+
+/* ---------- Return YouTube Dislike ---------- */
+
+.betteryt-has-dislikes {
+  width: auto !important;
+  padding-inline: 12px 14px !important;
+  gap: 6px;
+}
+
+.betteryt-dislike-count {
+  font:
+    500 1.4rem/2rem Roboto,
+    Arial,
+    sans-serif;
+  white-space: nowrap;
+}
+
+:is(segmented-like-dislike-button-view-model, #segmented-like-dislike-button):has(> .betteryt-ratio) {
+  position: relative;
+}
+
+.betteryt-ratio {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: -5px;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--by-native-active, rgba(128, 128, 128, 0.4));
+}
+
+.betteryt-ratio__likes {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--by-native-text, #f1f1f1);
+  transition: width var(--by-dur-slow, 360ms) var(--by-ease-emphasized, ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .betteryt-sb-skip {
+    animation: none;
+  }
+}

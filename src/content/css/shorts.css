@@ -1,0 +1,135 @@
+/*
+ * Shorts. Hide mode: one attribute per surface. Improved mode: our extra controls and small layout
+ * polish layered on YouTube's own Shorts player (nothing of YouTube's is removed).
+ */
+
+/* ---------- Hide mode ---------- */
+
+html[by-shorts-hide-home]
+  ytd-browse[page-subtype='home']
+  :is(
+    ytd-rich-section-renderer:has(
+      ytm-shorts-lockup-view-model,
+      ytd-reel-shelf-renderer,
+      ytd-rich-shelf-renderer[is-shorts]
+    ),
+    ytd-rich-item-renderer:has(a[href^='/shorts/'])
+  ),
+html[by-shorts-hide-search]
+  ytd-search
+  :is(
+    grid-shelf-view-model:has(ytm-shorts-lockup-view-model),
+    ytd-reel-shelf-renderer,
+    ytd-video-renderer:has(a[href^='/shorts/'])
+  ),
+html[by-shorts-hide-subscriptions]
+  ytd-browse[page-subtype='subscriptions']
+  :is(
+    ytd-rich-section-renderer:has(
+      ytm-shorts-lockup-view-model,
+      ytd-reel-shelf-renderer,
+      ytd-rich-shelf-renderer[is-shorts]
+    ),
+    ytd-rich-item-renderer:has(a[href^='/shorts/'])
+  ),
+html[by-shorts-hide-channel]
+  ytd-browse[page-subtype='channels']
+  :is(
+    ytd-reel-shelf-renderer,
+    ytd-item-section-renderer:has(ytd-reel-shelf-renderer),
+    ytd-rich-section-renderer:has(ytm-shorts-lockup-view-model),
+    grid-shelf-view-model:has(ytm-shorts-lockup-view-model)
+  ),
+html[by-shorts-hide-channel-tab] ytd-browse[page-subtype='channels'] yt-tab-shape[tab-title='Shorts'],
+html[by-shorts-hide-watch]
+  ytd-watch-flexy
+  #related
+  :is(
+    ytd-reel-shelf-renderer,
+    grid-shelf-view-model:has(ytm-shorts-lockup-view-model),
+    ytd-rich-section-renderer:has(ytm-shorts-lockup-view-model),
+    ytd-compact-video-renderer:has(a[href^='/shorts/']),
+    yt-lockup-view-model:has(a[href^='/shorts/'])
+  ),
+html[by-shorts-hide-guide]
+  :is(
+    ytd-guide-entry-renderer:has(a#endpoint[title='Shorts']),
+    ytd-mini-guide-entry-renderer[aria-label='Shorts']
+  ) {
+  display: none !important;
+}
+
+/* ---------- Improved mode ---------- */
+
+html[by-shorts-no-arrows] ytd-shorts :is(#navigation-button-up, #navigation-button-down) {
+  display: none !important;
+}
+
+.betteryt-shorts-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-inline-end: 4px;
+}
+
+html:not([by-shorts-improved]) .betteryt-shorts-controls {
+  display: none;
+}
+
+.betteryt-shorts-btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+  transition: background-color var(--by-dur-fast, 160ms) var(--by-ease-standard, ease);
+}
+
+.betteryt-shorts-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.betteryt-shorts-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 1px;
+}
+
+.betteryt-shorts-btn[aria-pressed='true'] {
+  color: var(--by-accent, #3ea6ff);
+}
+
+.betteryt-shorts-btn--text {
+  width: auto;
+  min-width: 40px;
+  padding: 0 8px;
+  border-radius: 18px;
+  font:
+    600 13px/1 Roboto,
+    Arial,
+    sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dislike count under Like in the Shorts action column (RYD). */
+.betteryt-shorts-dislikes {
+  margin: -4px 0 8px;
+  color: var(--by-native-text, #f1f1f1);
+  font:
+    500 1.2rem/1.6rem Roboto,
+    Arial,
+    sans-serif;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Calm polish: rounded player, consistent radius. */
+html[by-shorts-improved] ytd-shorts ytd-reel-video-renderer #short-video-container {
+  border-radius: 16px;
+  overflow: hidden;
+}

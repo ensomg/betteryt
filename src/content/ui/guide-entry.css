@@ -1,0 +1,175 @@
+/*
+ * BetterYT guide entries. Metrics mirror ytd-guide-entry-renderer / ytd-mini-guide-entry-renderer.
+ * YouTube now ships obfuscated custom-property names (e.g. --tffc2fd3a644f6275), so we cannot reuse
+ * its variables; instead we mirror its measured values and switch on YouTube's own html[dark].
+ */
+
+html {
+  --by-native-text: #0f0f0f;
+  --by-native-hover: rgba(0, 0, 0, 0.05);
+  --by-native-active: rgba(0, 0, 0, 0.1);
+  --by-native-focus: #065fd4;
+}
+
+html[dark] {
+  --by-native-text: #f1f1f1;
+  --by-native-hover: rgba(255, 255, 255, 0.1);
+  --by-native-active: rgba(255, 255, 255, 0.2);
+  --by-native-focus: #3ea6ff;
+}
+
+.betteryt-guide-entry {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: calc(100% - 12px); /* same as native entries */
+}
+
+.betteryt-guide-entry__toggle {
+  position: absolute;
+  inset-inline-end: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--by-native-text);
+  opacity: 0.55;
+  cursor: pointer;
+  transition:
+    opacity 90ms cubic-bezier(0.2, 0, 0, 1),
+    background-color 90ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.betteryt-guide-entry__toggle:hover {
+  opacity: 1;
+  background-color: var(--by-native-hover);
+}
+
+.betteryt-guide-entry__toggle[aria-pressed='true'] {
+  opacity: 1;
+  color: var(--by-native-focus);
+}
+
+.betteryt-guide-entry__toggle:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--by-native-focus);
+  outline-offset: -2px;
+}
+
+.betteryt-guide-entry__toggle svg {
+  display: block;
+}
+
+.betteryt-guide-entry__button,
+.betteryt-mini-entry__button {
+  position: relative;
+  overflow: hidden;
+  border: 0;
+  margin: 0;
+  background: transparent;
+  color: var(--by-native-text);
+  font-family: 'Roboto', 'Arial', sans-serif;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 90ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.betteryt-guide-entry__button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 1.4rem;
+  line-height: 2rem;
+  font-weight: 400;
+  text-align: start;
+  padding-inline-end: 44px; /* room for the quick toggle */
+}
+
+.betteryt-guide-entry__icon {
+  display: inline-flex;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-inline-end: 24px;
+}
+
+.betteryt-guide-entry__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.betteryt-mini-entry__button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 64px;
+  padding: 16px 0 14px;
+  border-radius: 10px;
+  font-size: 1rem;
+  line-height: 1.6rem;
+}
+
+.betteryt-mini-entry__icon {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 6px;
+}
+
+.betteryt-mini-entry__label {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.betteryt-guide-entry__button:hover,
+.betteryt-mini-entry__button:hover {
+  background-color: var(--by-native-hover);
+}
+
+.betteryt-guide-entry__button:active,
+.betteryt-mini-entry__button:active {
+  background-color: var(--by-native-active);
+}
+
+.betteryt-guide-entry__button:focus-visible,
+.betteryt-mini-entry__button:focus-visible {
+  outline: 2px solid var(--by-native-focus);
+  outline-offset: -2px;
+}
+
+.betteryt-guide-entry__button svg,
+.betteryt-mini-entry__button svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.betteryt-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  pointer-events: none;
+  transform: scale(0);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .betteryt-guide-entry__button,
+  .betteryt-mini-entry__button {
+    transition: none;
+  }
+}

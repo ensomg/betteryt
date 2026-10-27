@@ -1,0 +1,85 @@
+/*
+ * Cosmetic ad layer (the network rules and response cleaning remove most ads before they render;
+ * these catch what slips through). Hiding only — YouTube's lists keep working.
+ */
+
+/* ---------- Feed, search and watch-page ad slots ---------- */
+
+html[by-ads-feed]
+  :is(
+    ytd-ad-slot-renderer,
+    ytd-in-feed-ad-layout-renderer,
+    ytd-display-ad-renderer,
+    ytd-promoted-sparkles-web-renderer,
+    ytd-promoted-sparkles-text-search-renderer,
+    ytd-promoted-video-renderer,
+    ytd-compact-promoted-video-renderer,
+    ytd-search-pyv-renderer,
+    ytd-banner-promo-renderer,
+    ytd-statement-banner-renderer,
+    ytd-brand-video-shelf-renderer,
+    ytd-brand-video-singleton-renderer,
+    ytd-action-companion-ad-renderer,
+    ytd-companion-slot-renderer,
+    ytd-player-legacy-desktop-watch-ads-renderer,
+    #masthead-ad,
+    #player-ads,
+    ytd-engagement-panel-section-list-renderer[target-id='engagement-panel-ads']
+  ),
+html[by-ads-feed]
+  :is(ytd-rich-item-renderer, ytd-rich-section-renderer):has(
+    ytd-ad-slot-renderer,
+    ytd-in-feed-ad-layout-renderer
+  ) {
+  display: none !important;
+}
+
+/* ---------- Player overlays (banner ads, "Ad" text, sponsored cards) ---------- */
+
+html[by-ads-video]
+  #movie_player
+  :is(
+    .ytp-ad-overlay-container,
+    .ytp-ad-overlay-slot,
+    .ytp-ad-image-overlay,
+    .ytp-ad-text-overlay,
+    .ytp-ad-player-overlay-layout__ad-info-container,
+    .ytp-suggested-action-badge
+  ) {
+  display: none !important;
+}
+
+/* While the runtime fallback fast-forwards an ad, don't flash its frame. */
+html[by-ads-video] #movie_player.ad-showing video {
+  opacity: 0 !important;
+}
+
+/* ---------- Premium upsells ---------- */
+
+html[by-ads-premium]
+  :is(
+    ytd-mealbar-promo-renderer,
+    yt-mealbar-promo-renderer,
+    ytd-premium-yva-upsell-renderer,
+    ytd-background-promo-renderer,
+    #premium-upsell-banner,
+    ytd-primetime-promo-renderer
+  ),
+html[by-ads-premium]
+  tp-yt-paper-dialog:has(
+    :is(ytd-mealbar-promo-renderer, yt-mealbar-promo-renderer, ytd-premium-yva-upsell-renderer)
+  ) {
+  display: none !important;
+}
+
+/* ---------- "Ad blockers violate YouTube's Terms" enforcement dialog ---------- */
+
+html[by-ads-warning] tp-yt-paper-dialog:has(ytd-enforcement-message-view-model),
+html[by-ads-warning] ytd-enforcement-message-view-model {
+  display: none !important;
+}
+
+/* The dialog's backdrop sits next to it, not inside. Hide it while an enforcement dialog exists. */
+html[by-ads-warning]:has(ytd-enforcement-message-view-model) tp-yt-iron-overlay-backdrop {
+  display: none !important;
+}

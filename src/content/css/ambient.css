@@ -1,0 +1,64 @@
+/* Ambient light canvas and cinema mode. Only transform/opacity/filter, GPU-composited. */
+
+/*
+ * The canvas lives in YouTube's own ambient-mode containers (#cinematics-container on watch,
+ * #cinematic-container in Shorts), which already sit behind the player with its geometry.
+ */
+.betteryt-ambient {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(var(--by-amb-scale, 1.12));
+  filter: blur(var(--by-amb-blur, 70px)) saturate(var(--by-amb-sat, 1.4));
+  transition: opacity var(--by-dur-slow, 360ms) var(--by-ease-standard, ease);
+  will-change: opacity, transform;
+  contain: strict;
+}
+
+.betteryt-ambient--on {
+  opacity: var(--by-amb-opacity, 0.55);
+}
+
+/* One glow at a time: hide YouTube's own "Ambient mode" next to ours. */
+:is(ytd-watch-flexy #cinematics-container, ytd-reel-video-renderer #cinematic-container):has(
+    > .betteryt-ambient
+  )
+  > :not(.betteryt-ambient) {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .betteryt-ambient {
+    transition: none;
+  }
+}
+
+/* ---------- Cinema mode: everything but the player fades into the dark ---------- */
+
+html[by-cinema] ytd-app {
+  background: #000 !important;
+}
+
+html[by-cinema]
+  :is(
+    #masthead-container,
+    tp-yt-app-drawer#guide,
+    ytd-mini-guide-renderer,
+    ytd-watch-flexy #secondary,
+    ytd-watch-flexy #below,
+    ytd-watch-flexy #chat-container
+  ) {
+  opacity: calc(1 - var(--by-cinema-dim, 0.9));
+  transition: opacity var(--by-dur-slow, 360ms) var(--by-ease-standard, ease);
+}
+
+html[by-cinema] :is(#masthead-container, ytd-watch-flexy #secondary, ytd-watch-flexy #below):hover {
+  opacity: max(0.6, calc(1 - var(--by-cinema-dim, 0.9)));
+}
+
+html:not([by-cinema]) :is(#masthead-container, ytd-watch-flexy #secondary, ytd-watch-flexy #below) {
+  transition: opacity var(--by-dur-base, 240ms) var(--by-ease-standard, ease);
+}

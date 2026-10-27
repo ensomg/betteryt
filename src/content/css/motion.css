@@ -1,0 +1,54 @@
+/*
+ * Motion tokens (mirrors src/shared/motion.ts; tests/motion.test.ts keeps them in sync).
+ * Levels scale durations: reduced = 0.5x (opacity-only rules elsewhere), expressive = 1.25x, off = 0.
+ */
+html {
+  --by-dur-instant: 90ms;
+  --by-dur-fast: 160ms;
+  --by-dur-base: 240ms;
+  --by-dur-slow: 360ms;
+  --by-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --by-ease-emphasized: cubic-bezier(0.3, 0, 0, 1);
+  --by-ease-spring: linear(
+    0,
+    0.175,
+    0.502,
+    0.793,
+    0.981,
+    1.067,
+    1.083,
+    1.064,
+    1.037,
+    1.014,
+    1,
+    0.994,
+    0.993,
+    0.995,
+    0.997,
+    0.999,
+    1
+  );
+  --by-stagger: 32ms;
+}
+
+html[by-anim='reduced'] {
+  --by-dur-instant: 45ms;
+  --by-dur-fast: 80ms;
+  --by-dur-base: 120ms;
+  --by-dur-slow: 180ms;
+  --by-ease-spring: var(--by-ease-standard);
+}
+
+html[by-anim='expressive'] {
+  --by-dur-instant: 112ms;
+  --by-dur-fast: 200ms;
+  --by-dur-base: 300ms;
+  --by-dur-slow: 450ms;
+}
+
+html[by-anim='off'] {
+  --by-dur-instant: 0ms;
+  --by-dur-fast: 0ms;
+  --by-dur-base: 0ms;
+  --by-dur-slow: 0ms;
+}

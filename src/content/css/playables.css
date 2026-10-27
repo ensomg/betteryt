@@ -1,0 +1,31 @@
+/*
+ * Playables / Games removal. Link-based detection (:has) catches shelves and items wherever they
+ * render; features/playables.ts additionally marks shelves by title with [by-playables].
+ * Item-section containers are deliberately excluded: on Search they hold the whole result list.
+ */
+
+html[by-hide-playables]
+  :is(
+    ytd-rich-section-renderer,
+    ytd-rich-shelf-renderer,
+    ytd-reel-shelf-renderer,
+    ytd-shelf-renderer,
+    grid-shelf-view-model,
+    ytd-horizontal-card-list-renderer,
+    ytd-rich-item-renderer,
+    ytd-video-renderer,
+    yt-lockup-view-model,
+    ytd-mini-game-card-view-model,
+    ytd-game-card-renderer
+  ):has(
+    a[href^='/playables'],
+    a[href*='youtube.com/playables'],
+    ytd-mini-game-card-view-model,
+    mini-game-card-view-model
+  ),
+html[by-hide-playables]
+  :is(ytd-guide-entry-renderer, ytd-mini-guide-entry-renderer):has(a[href^='/playables']),
+html[by-hide-playables] :is(ytd-mini-game-card-view-model, ytd-game-card-renderer),
+html[by-hide-playables] [by-playables] {
+  display: none !important;
+}

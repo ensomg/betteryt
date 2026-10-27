@@ -1,0 +1,97 @@
+/*
+ * First consumers of the motion tokens. transform/opacity only; nothing runs at 'off' and only
+ * opacity changes at 'reduced'. Heavier effects are skipped in performance mode.
+ */
+
+/* ---------- Thumbnail hover: card lifts, image zooms slightly ---------- */
+
+html[by-anim-thumbs]:is([by-anim='standard'], [by-anim='expressive']):not([by-perf])
+  :is(ytd-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer, ytd-grid-video-renderer) {
+  --by-card-lift: -2px;
+}
+
+html[by-anim-thumbs]:is([by-anim='standard'], [by-anim='expressive'])
+  :is(
+    ytd-rich-item-renderer > #content,
+    ytd-video-renderer > #dismissible,
+    ytd-compact-video-renderer > #dismissible,
+    ytd-grid-video-renderer > #dismissible
+  ) {
+  transition: transform var(--by-dur-base) var(--by-ease-standard);
+}
+
+html[by-anim-thumbs]:is([by-anim='standard'], [by-anim='expressive']):not([by-perf])
+  :is(
+    ytd-rich-item-renderer > #content,
+    ytd-video-renderer > #dismissible,
+    ytd-compact-video-renderer > #dismissible,
+    ytd-grid-video-renderer > #dismissible
+  ):hover {
+  transform: translateY(var(--by-card-lift, 0));
+}
+
+html[by-anim-thumbs]:is([by-anim='standard'], [by-anim='expressive'])
+  :is(ytd-thumbnail, yt-thumbnail-view-model)
+  :is(img, yt-image) {
+  transition: transform var(--by-dur-slow) var(--by-ease-standard);
+}
+
+html[by-anim-thumbs]:is([by-anim='standard'], [by-anim='expressive']):not([by-perf])
+  :is(
+    ytd-rich-item-renderer,
+    ytd-video-renderer,
+    ytd-compact-video-renderer,
+    ytd-grid-video-renderer,
+    yt-lockup-view-model
+  ):hover
+  :is(ytd-thumbnail, yt-thumbnail-view-model)
+  :is(img, yt-image) {
+  transform: scale(1.04);
+}
+
+/* ---------- Popup menus & dropdowns: scale + fade from the trigger side ---------- */
+
+@keyframes by-menu-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+}
+
+@keyframes by-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+html[by-anim-menus]:is([by-anim='standard'], [by-anim='expressive'])
+  tp-yt-iron-dropdown:not([aria-hidden='true'])
+  :is(
+    ytd-menu-popup-renderer,
+    ytd-multi-page-menu-renderer,
+    yt-sheet-view-model,
+    ytd-unified-share-panel-renderer
+  ) {
+  transform-origin: var(--by-menu-origin, top right);
+  animation: by-menu-in var(--by-dur-fast) var(--by-ease-emphasized);
+}
+
+html[by-anim-menus][by-anim='reduced']
+  tp-yt-iron-dropdown:not([aria-hidden='true'])
+  :is(ytd-menu-popup-renderer, ytd-multi-page-menu-renderer, yt-sheet-view-model) {
+  animation: by-fade-in var(--by-dur-fast) linear;
+}
+
+/* Search suggestions dropdown */
+html[by-anim-menus]:is([by-anim='standard'], [by-anim='expressive'])
+  .ytSearchboxComponentSuggestionsContainer:not([hidden]) {
+  transform-origin: top center;
+  animation: by-menu-in var(--by-dur-fast) var(--by-ease-emphasized);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html [class*='betteryt-'] {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
